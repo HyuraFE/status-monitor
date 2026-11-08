@@ -1,0 +1,16 @@
+name: Trigger Uptime Check
+
+on:
+  schedule:
+    # Berjalan otomatis setiap 10 menit
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Memungkinkan tombol "Run workflow" manual di GitHub
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Status Monitor API
+        run: |
+          curl -s -X GET "https://status.pylexia.fun/api/cron/check" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}"
